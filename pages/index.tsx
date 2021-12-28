@@ -1,6 +1,9 @@
+import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import useSWR from "swr";
+
+import { db } from "../utils/db/index";
 
 import CoffeeShop from "../components/CoffeeShop/CoffeeShop";
 import styles from "../styles/Home.module.css";
@@ -11,7 +14,7 @@ const fetcher = (url: RequestInfo) => fetch(url).then((res) => res.json());
 
 const Home: NextPage = () => {
 	const { data, error } = useSWR("api/coffeeshop", fetcher);
-
+	console.log(data);
 	if (error) return <div>Failed to load</div>;
 	if (!data) return <div>Loading...</div>;
 
@@ -25,8 +28,8 @@ const Home: NextPage = () => {
 
 			<main className={styles.main}>
 				<ul className={styles.coffeeshops}>
-					{data.map((coffeeshop: CoffeeShopsType, index: number) => (
-						<CoffeeShop key={index} {...coffeeshop} />
+					{data.map((coffeeshop: CoffeeShopsType) => (
+						<CoffeeShop key={coffeeshop.id} {...coffeeshop} />
 					))}
 				</ul>
 			</main>

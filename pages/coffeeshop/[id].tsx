@@ -27,13 +27,12 @@ export default function CoffeeShop() {
 
 	if (error) return <div>{error.message}</div>;
 	if (!data) return <div>Loading...</div>;
-
-	const { id, name, roaster, city, state }: CoffeeShopsType = data;
+	const { id, name, roaster, city, state, counter }: CoffeeShopsType = data;
 
 	return (
 		<div className={styles.container}>
 			<section className={styles.coffeeshopDetails}>
-				<LikesCounter />
+				<LikesCounter {...counter} />
 				<h1 className={styles.coffeeshopTitle}>{name}</h1>
 				<div className={styles.coffeeshopLocation}>
 					{city}, {state}

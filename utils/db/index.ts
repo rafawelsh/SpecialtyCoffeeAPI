@@ -11,4 +11,4 @@ import { getFirestore } from "firebase/firestore";
   appId: "1:215820621214:web:56627d4eebb95bc061728f"
 });
 
-export const db = getFirestore();
+export const db = getFirestore(firebase);

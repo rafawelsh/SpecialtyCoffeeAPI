@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "./likesCounter.module.css";
+import { CounterType } from "../../types/CoffeeShopsType";
+import handlerCoffeeShop from "../../pages/api/coffeeshop/[id]";
 
-export default function LikesCounter() {
+export default function LikesCounter({ likes, dislikes }: CounterType) {
 	return (
 		<div className={styles.container}>
-			<div>likes</div>
+			<button>Click: {likes}</button>
 			<div>0</div>
-			<div>dislikes</div>
+			<button>Click: {dislikes}</button>
 		</div>
 	);
 }

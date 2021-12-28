@@ -1,12 +1,31 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { coffeeShops } from "../../../data";
+import { db } from "../../../utils/db";
+import { updateDoc, getDoc, doc } from "firebase/firestore";
 
-export default function coffeeShopHandler({query: {id}}: NextApiRequest, res:NextApiResponse) {
+export default async function handlerCoffeeShop(
+	req: NextApiRequest,
+	res: NextApiResponse
+) {
+	const { method } = req;
+	const { id } = req.query;
 
-	const filtered = coffeeShops.filter((p) => p.id === id);
-  if (filtered.length > 0) {
-		res.status(200).json(filtered[0]);
-	} else {
-		res.status(404).json({ message: `User with id: ${id} not found.` });
+	const coffeeShopsRef = doc(db, "coffeeshops", String(id));
+	const coffeeShopData = await getDoc(coffeeShopsRef);
+
+	if (method === "GET") {
+		try {
+			res.status(200).json(coffeeShopData.data());
+		} catch (error) {
+			res.status(400).send("something went wrong");
+		}
+	}
+	if (method === "POST") {
+		await updateDoc(coffeeShopsRef, {
+			counter: {
+				likes: 100,
+				dislikes: 5,
+			},
+		});
+		res.status(200).send("posting on signle");
 	}
 }
