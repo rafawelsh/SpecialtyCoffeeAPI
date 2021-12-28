@@ -1,21 +1,24 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import Link from "next/link";
+
+import LikesCounter from "../../components/LikesCounter/LikesCounter";
+import styles from "./coffeeshop.module.css";
+import { CoffeeShopsType } from "../../types";
 
 const fetcher = async (url: RequestInfo) => {
 	const res = await fetch(url);
 	const data = await res.json();
 
 	if (res.status !== 200) {
-		console.log("hello");
 		throw new Error(data.message);
 	}
-	console.log(data);
+
 	return data;
 };
 
 export default function CoffeeShop() {
 	const { query } = useRouter();
-	console.log({ query });
 
 	const { data, error } = useSWR(
 		() => query.id && `/api/coffeeshop/${query.id}`,
@@ -25,10 +28,24 @@ export default function CoffeeShop() {
 	if (error) return <div>{error.message}</div>;
 	if (!data) return <div>Loading...</div>;
 
+	const { id, name, roaster, city, state }: CoffeeShopsType = data;
+
 	return (
-		<>
-			<p>Hello</p>
-			{data.name}
-		</>
+		<div className={styles.container}>
+			<section className={styles.coffeeshopDetails}>
+				<LikesCounter />
+				<h1 className={styles.coffeeshopTitle}>{name}</h1>
+				<div className={styles.coffeeshopLocation}>
+					{city}, {state}
+				</div>
+				{roaster}
+			</section>
+
+			<button>
+				<Link href='/' as={`/`}>
+					<a>Go Back to Main</a>
+				</Link>
+			</button>
+		</div>
 	);
 }

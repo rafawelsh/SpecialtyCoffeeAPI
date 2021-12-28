@@ -1,8 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import useSWR from "swr";
-import CoffeeShop from "../components/CoffeeShop";
+
+import CoffeeShop from "../components/CoffeeShop/CoffeeShop";
+import styles from "../styles/Home.module.css";
+
+import { CoffeeShopsType } from "../types";
 
 const fetcher = (url: RequestInfo) => fetch(url).then((res) => res.json());
 
@@ -21,9 +24,9 @@ const Home: NextPage = () => {
 			</Head>
 
 			<main className={styles.main}>
-				<ul>
-					{data.map((shop: any, index: number) => (
-						<CoffeeShop key={index} coffeeshop={shop} />
+				<ul className={styles.coffeeshops}>
+					{data.map((coffeeshop: CoffeeShopsType, index: number) => (
+						<CoffeeShop key={index} {...coffeeshop} />
 					))}
 				</ul>
 			</main>

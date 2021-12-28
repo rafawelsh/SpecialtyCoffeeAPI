@@ -1,18 +1,24 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {coffeeShops} from '../../../data'
-
-type CoffeeShopType = {
-    id: string,
-		name: string,
-		roaster: boolean,
-		city: string,
-		state: string,
-}
+import type {CoffeeShopsType} from '../../../types'
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CoffeeShopType[]>,
+  res: NextApiResponse<CoffeeShopsType[]>,
 ) {
-  res.status(200).json(coffeeShops)
+  const {method} = req;
+  
+  switch (method) {
+    case 'GET':
+      res.status(200).json(coffeeShops)
+      break;
+    case 'POST':
+      const {body} = req;
+      coffeeShops.push({...body, id: coffeeShops.length + 1})
+      res.status(200).json(coffeeShops)
+      break
+    default:
+      console.log(`Sorry, we cannot do that request`)
+    }
 }
