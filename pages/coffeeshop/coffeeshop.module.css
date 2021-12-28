@@ -1,0 +1,24 @@
+.container {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: var(--primaryText);
+}
+
+.coffeeshopDetails {
+	background: var(--backgroundDiv);
+	list-style-type: none;
+	margin: 1rem 0;
+	padding: var(--three);
+	border-radius: var(--two);
+	box-shadow: -5px 5px 5px 1px rgba(0, 0, 0, 0.1);
+}
+
+.coffeeshopTitle {
+	margin-bottom: var(--four);
+}
+
+.coffeeshopLocation {
+}

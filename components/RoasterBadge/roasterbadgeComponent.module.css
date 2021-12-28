@@ -1,0 +1,6 @@
+.badge {
+	background-color: var(--backgroundBadge);
+	border-radius: var(--two);
+	padding: var(--one) var(--two);
+	color: var(--secondaryText);
+}
