@@ -4,4 +4,10 @@ export type CoffeeShopsType = {
   roaster: boolean,
   city: string,
   state: string,
+  counter?: CounterType
+}
+
+export type CounterType = {
+  likes: number,
+  dislikes: number
 }
