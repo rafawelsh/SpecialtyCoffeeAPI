@@ -1,22 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import useSWR from "swr";
-
-import { db } from "../utils/db/index";
+import axios from "axios";
 
 import CoffeeShop from "../components/CoffeeShop/CoffeeShop";
 import styles from "../styles/Home.module.css";
-
 import { CoffeeShopsType } from "../types";
 
-const fetcher = (url: RequestInfo) => fetch(url).then((res) => res.json());
-
 const Home: NextPage = () => {
-	const { data, error } = useSWR("api/coffeeshop", fetcher);
-	console.log(data);
-	if (error) return <div>Failed to load</div>;
-	if (!data) return <div>Loading...</div>;
+	const [data, setData] = useState([]);
+
+	useEffect(() => {
+		axios({
+			method: "GET",
+			url: "api/coffeeshop",
+		}).then((response) => {
+			setData(response.data);
+		});
+	}, []);
+
+	// if (error) return <div>Failed to load</div>;
+	// if (!data) return <div>Loading...</div>;
 
 	return (
 		<div className={styles.container}>
@@ -28,9 +32,10 @@ const Home: NextPage = () => {
 
 			<main className={styles.main}>
 				<ul className={styles.coffeeshops}>
-					{data.map((coffeeshop: CoffeeShopsType) => (
-						<CoffeeShop key={coffeeshop.id} {...coffeeshop} />
-					))}
+					{data &&
+						data.map((coffeeshop: CoffeeShopsType) => (
+							<CoffeeShop key={coffeeshop.id} {...coffeeshop} />
+						))}
 				</ul>
 			</main>
 		</div>

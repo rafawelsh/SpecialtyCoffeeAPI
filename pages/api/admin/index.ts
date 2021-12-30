@@ -9,15 +9,20 @@ export default async function handler(
 	res: NextApiResponse<CoffeeShopsType[]>
 ) {
 	const { method } = req;
-  const coffeeShopsRef = collection(db, "coffeeshops");
+	const coffeeShopsRef = collection(db, "coffeeshops");
 
 	if (method === "POST") {
-    const {name, roaster, city, state} = req.body
+		const { name, roaster, city, state } = req.body;
 		try {
-     await addDoc(coffeeShopsRef, {name: name, roaster: roaster, city: city, state: state})
-     res.status(200).json(req.body)
+			await addDoc(coffeeShopsRef, {
+				name: name,
+				roaster: roaster,
+				city: city,
+				state: state,
+				counter: { likes: 0, dislikes: 0 },
+			});
+			res.status(200).json(req.body);
 		} catch (error) {
-			console.log("no posting");
 			res.status(400).end();
 		}
 	}
