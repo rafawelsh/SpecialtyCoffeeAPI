@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { db } from "../../../utils/db";
-import { updateDoc, getDoc, doc } from "firebase/firestore";
+import { updateDoc, getDoc, doc, increment } from "firebase/firestore";
 
 export default async function handlerCoffeeShop(
 	req: NextApiRequest,
@@ -20,12 +20,13 @@ export default async function handlerCoffeeShop(
 		}
 	}
 	if (method === "POST") {
+		const value = req.body.valueToIncrease;
+
 		await updateDoc(coffeeShopsRef, {
-			counter: {
-				likes: 100,
-				dislikes: 5,
-			},
+			[`counter.${value}`]: increment(1),
 		});
-		res.status(200).send("posting on signle");
+		const coffeeShopData = await getDoc(coffeeShopsRef);
+
+		res.status(200).send(coffeeShopData.data());
 	}
 }
