@@ -1,3 +1,33 @@
 .container {
-	background: var(--backgroundContainer);
+	width: 75px;
+	background: var(--backgroundBadge);
+	border-radius: var(--one);
+}
+
+.buttonStyle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.arrowButton {
+	background: none;
+	border: none;
+	padding: var(--two);
+	width: 100%;
+	height: var(--fourhalf);
+}
+
+.arrowButton:hover {
+	cursor: pointer;
+}
+
+.arrowButton:active {
+	background-color: red;
+}
+
+.likesIndicator {
+	height: var(--four);
+	border-top: 1px solid var(--backgroundDiv);
+	border-bottom: 1px solid var(--backgroundDiv);
 }
