@@ -1,39 +1,56 @@
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import Link from "next/link";
+import axios from "axios";
 
 import LikesCounter from "../../components/LikesCounter/LikesCounter";
 import styles from "./coffeeshop.module.css";
 import { CoffeeShopsType } from "../../types";
 
-const fetcher = async (url: RequestInfo) => {
-	const res = await fetch(url);
-	const data = await res.json();
-
-	if (res.status !== 200) {
-		throw new Error(data.message);
-	}
-
-	return data;
+const coffeeShop = {
+	id: "",
+	name: "",
+	roaster: false,
+	city: "",
+	state: "",
+	counter: {
+		likes: 0,
+		dislikes: 0,
+	},
 };
 
-export default function CoffeeShop() {
+export default function CoffeeShopId() {
+	const [data, setData] = useState<CoffeeShopsType>(coffeeShop);
 	const { query } = useRouter();
 
-	const { data, error } = useSWR(
-		() => query.id && `/api/coffeeshop/${query.id}`,
-		fetcher
-	);
+	useEffect(() => {
+		axios({
+			method: "GET",
+			url: `http://localhost:3000/api/coffeeshop/${query.id}`,
+		}).then((response) => {
+			setData(response.data);
+		});
+	}, [query]);
 
-	if (error) return <div>{error.message}</div>;
-	if (!data) return <div>Loading...</div>;
+	function handleClick(e: React.MouseEvent<HTMLElement>) {
+		// (event.target as HTMLInputElement).value;
+		const valueToIncrease = (e.target as HTMLInputElement).id;
+		axios
+			.post(`http://localhost:3000/api/coffeeshop/${query.id}`, {
+				valueToIncrease,
+				counter,
+			})
+			.then((res) => {
+				setData(res.data);
+			});
+	}
 
-	const { id, name, roaster, city, state }: CoffeeShopsType = data;
+	const { name, roaster, city, state, counter }: CoffeeShopsType = data;
 
 	return (
 		<div className={styles.container}>
 			<section className={styles.coffeeshopDetails}>
-				<LikesCounter />
+				<LikesCounter {...counter} handleClick={handleClick} />
 				<h1 className={styles.coffeeshopTitle}>{name}</h1>
 				<div className={styles.coffeeshopLocation}>
 					{city}, {state}

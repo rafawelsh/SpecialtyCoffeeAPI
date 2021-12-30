@@ -1,1 +1,1 @@
-export type {CoffeeShopsType} from './CoffeeShopsType'
+export type { CoffeeShopsType, CounterType } from "./CoffeeShopsType";
