@@ -1,3 +1,5 @@
+import { MouseEventHandler } from "react";
+
 export type CoffeeShopsType = {
 	id: string;
 	name: string;
@@ -11,4 +13,5 @@ export type CounterType = {
 	likes: number;
 	dislikes: number;
 	handleClick?: (e: React.MouseEvent<HTMLElement>) => void;
+	// handleClick?: MouseEventHandler;
 };

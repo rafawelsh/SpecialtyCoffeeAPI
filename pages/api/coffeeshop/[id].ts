@@ -21,12 +21,14 @@ export default async function handlerCoffeeShop(
 	}
 	if (method === "POST") {
 		const value = req.body.valueToIncrease;
-
-		await updateDoc(coffeeShopsRef, {
-			[`counter.${value}`]: increment(1),
-		});
-		const coffeeShopData = await getDoc(coffeeShopsRef);
-
-		res.status(200).send(coffeeShopData.data());
+		try {
+			await updateDoc(coffeeShopsRef, {
+				[`counter.${value}`]: increment(1),
+			});
+			const coffeeShopData = await getDoc(coffeeShopsRef);
+			res.status(200).send(coffeeShopData.data());
+		} catch (error) {
+			console.log(error);
+		}
 	}
 }

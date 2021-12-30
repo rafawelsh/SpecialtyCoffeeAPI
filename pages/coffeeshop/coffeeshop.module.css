@@ -8,6 +8,8 @@
 }
 
 .coffeeshopDetails {
+	display: flex;
+	gap: 3rem;
 	background: var(--backgroundDiv);
 	list-style-type: none;
 	margin: 1rem 0;
