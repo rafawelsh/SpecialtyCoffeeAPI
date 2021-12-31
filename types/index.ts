@@ -1,1 +1,6 @@
-export type { CoffeeShopsType, CounterType } from "./CoffeeShopsType";
+export type {
+	CoffeeShopsType,
+	CounterType,
+	CoordinatesType,
+	SocialMediaType,
+} from "./CoffeeShopsType";

@@ -4,19 +4,31 @@ import Link from "next/link";
 import axios from "axios";
 
 import LikesCounter from "../../components/LikesCounter/LikesCounter";
-import styles from "./coffeeshop.module.css";
+import CoffeeShopAdditional from "../../components/CoffeeShopAdditional/CoffeeShopAdditional";
 import { CoffeeShopsType } from "../../types";
-import { FaMapMarkerAlt } from "react-icons/fa";
+
+import styles from "./coffeeshop.module.css";
+import { FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
 
 const coffeeShop = {
 	id: "",
 	name: "",
 	roaster: false,
+	address: "",
 	city: "",
 	state: "",
+	website: "",
 	counter: {
 		likes: 0,
 		dislikes: 0,
+	},
+	coordinates: {
+		lat: "",
+		lng: "",
+	},
+	socials: {
+		instagram: "",
+		facebook: "",
 	},
 };
 
@@ -33,10 +45,6 @@ export default function CoffeeShopId() {
 		});
 	}, [query]);
 
-	/*function handleClick(e) {
-		console.log(e.target.id);
-		const valueToIncrease = e.target.id;*/
-
 	function handleClick(e: React.MouseEvent<HTMLElement>) {
 		const valueToIncrease = (e.target as HTMLInputElement).id;
 		axios
@@ -49,19 +57,32 @@ export default function CoffeeShopId() {
 			});
 	}
 
-	const { name, roaster, city, state, counter }: CoffeeShopsType = data;
+	const {
+		name,
+		roaster,
+		city,
+		state,
+		counter,
+		website,
+		address,
+		socials,
+	}: CoffeeShopsType = data;
+	console.log(socials);
 
+	if (!data) {
+		return <p>Loading ...</p>;
+	}
 	return (
 		<div className={styles.container}>
 			<section className={styles.coffeeshopDetails}>
 				<LikesCounter {...counter} handleClick={handleClick} />
 				<>
 					<h1 className={styles.coffeeshopTitle}>{name}</h1>
-					<div className={styles.coffeeshopLocation}>
+					{/* <div className={styles.coffeeshopLocation}>
 						<FaMapMarkerAlt /> {city} {state}
-					</div>
-					{roaster}
+					</div> */}
 				</>
+				<CoffeeShopAdditional {...data} />
 			</section>
 
 			<button>
