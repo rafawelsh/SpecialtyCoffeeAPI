@@ -2,6 +2,10 @@
 @import "./variables/variables.text.css";
 @import "./variables/variables.sizes.css";
 
+@import "leaflet/dist/leaflet.css";
+@import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+@import "leaflet-defaulticon-compatibility";
+
 html,
 body {
 	padding: 0;
