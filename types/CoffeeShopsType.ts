@@ -21,7 +21,7 @@ export type CounterType = {
 
 export type CoordinatesType = {
 	lat: string;
-	lng: string;
+	long: string;
 };
 
 export type SocialMediaType = {
